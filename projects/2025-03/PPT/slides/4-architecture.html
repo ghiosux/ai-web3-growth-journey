@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 技术架构</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 2rem);
+            display: flex;
+            flex-direction: column;
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .slide-footer {
+            margin-top: auto;
+            padding-top: 0.75rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .architecture-diagram {
+            position: relative;
+            margin: 1rem 0;
+        }
+        .system-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .system-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .system-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+        }
+        .system-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #6366f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            color: white;
+            font-size: 0.75rem;
+        }
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid rgba(99, 102, 241, 0.4);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .tech-badge {
+            display: inline-block;
+            background-color: #eef2ff;
+            color: #4f46e5;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* 确保内容区完全展示 */
+        .content-wrapper {
+            min-height: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 优化架构图布局 */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        /* 技术标签改为flex布局 */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+        
+        /* 减小系统框内边距和间距 */
+        .system-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                技术架构
+            </div>
+        </div>
+        
+        <div class="slide-content content-wrapper">
+            <h2 class="text-2xl font-bold mb-3 text-indigo-700 animate-fade-in">系统架构设计</h2>
+            
+            <p class="mb-4 animate-fade-in delay-100">
+                Trisolaris采用现代化的三层架构设计，前端使用React，Web3集成层处理区块链交互，智能合约负责核心业务逻辑。
+            </p>
+            
+            <div class="architecture-grid">
+                <div class="system-box animate-slide-up delay-100">
+                    <div class="system-title">
+                        <div class="system-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <span>前端层</span>
+                    </div>
+                    <div class="system-content">
+                        <p class="mb-2">用户界面和交互逻辑，包括钱包连接、卡片展示和结果显示。</p>
+                        <div class="tech-tags">
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">TailwindCSS</span>
+                            <span class="tech-badge">ethers.js</span>
+                            <span class="tech-badge">zustand</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-box animate-slide-up delay-200">
+                    <div class="system-title">
+                        <div class="system-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <span>Web3集成层</span>
+                    </div>
+                    <div class="system-content">
+                        <p class="mb-2">处理与区块链的交互，包括钱包连接、合约调用和事件监听。</p>
+                        <div class="tech-tags">
+                            <span class="tech-badge">Web3-React</span>
+                            <span class="tech-badge">MetaMask</span>
+                            <span class="tech-badge">Monad SDK</span>
+                            <span class="tech-badge">Viem</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-box animate-slide-up delay-300">
+                    <div class="system-title">
+                        <div class="system-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <span>智能合约层</span>
+                    </div>
+                    <div class="system-content">
+                        <p class="mb-2">实现核心游戏逻辑，包括随机抽卡、结果验证和奖励发放。</p>
+                        <div class="tech-tags">
+                            <span class="tech-badge">Solidity</span>
+                            <span class="tech-badge">Hardhat</span>
+                            <span class="tech-badge">OpenZeppelin</span>
+                            <span class="tech-badge">Chainlink VRF</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-box animate-slide-up delay-400">
+                    <div class="system-title">
+                        <div class="system-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <span>数据存储层</span>
+                    </div>
+                    <div class="system-content">
+                        <p class="mb-2">处理卡片元数据和游戏历史记录。</p>
+                        <div class="tech-tags">
+                            <span class="tech-badge">IPFS</span>
+                            <span class="tech-badge">Pinata</span>
+                            <span class="tech-badge">区块链事件</span>
+                            <span class="tech-badge">IndexedDB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-box animate-slide-up delay-500">
+                    <div class="system-title">
+                        <div class="system-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <span>支付系统</span>
+                    </div>
+                    <div class="system-content">
+                        <p class="mb-2">处理代币支付和奖励发放逻辑。</p>
+                        <div class="tech-tags">
+                            <span class="tech-badge">ERC-20</span>
+                            <span class="tech-badge">Gas优化</span>
+                            <span class="tech-badge">事件监听</span>
+                            <span class="tech-badge">钱包交互</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-box animate-slide-up delay-500">
+                    <div class="system-title">
+                        <div class="system-icon">
+                            <i class="fas fa-random"></i>
+                        </div>
+                        <span>随机性模块</span>
+                    </div>
+                    <div class="system-content">
+                        <p class="mb-2">生成公平透明的随机结果。</p>
+                        <div class="tech-tags">
+                            <span class="tech-badge">区块哈希</span>
+                            <span class="tech-badge">时间戳</span>
+                            <span class="tech-badge">发送者地址</span>
+                            <span class="tech-badge">难度系数</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4 p-3 bg-indigo-50 rounded-lg animate-fade-in delay-400">
+                <h3 class="font-bold text-indigo-700 mb-2">技术亮点</h3>
+                <ul class="text-sm space-y-1">
+                    <li>· 使用Monad Testnet实现高吞吐量、低手续费的交易体验</li>
+                    <li>· 前端使用React Hooks和Zustand实现无状态组件设计</li>
+                    <li>· 采用React-Query处理异步数据流</li>
+                    <li>· 智能合约采用最新安全实践，通过Gas优化降低用户成本</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            <div>Trisolaris 项目 | 2025年3月黑客松</div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris 需求分析</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trisolaris 需求分析</h1>
+
+    <h2>项目概述</h2>
+    <p>“Trisolaris”是一个基于Web3的游戏应用，用户通过Monad Testnet的测试代币支付抽卡，抽取三张无聊猿卡片（共10种不同类型）。如果三张卡片相同，用户赢得测试代币奖励；否则，无奖励。项目需在两个小时内由三人团队通过GitHub协作开发并部署。</p>
+
+    <h2>项目目标</h2>
+    <ul>
+        <li>开发一个Web3游戏应用，支持用户通过Monad Testnet支付抽卡。</li>
+        <li>使用10种无聊猿卡片实现三连机制，判断抽卡结果并发放奖励。</li>
+        <li>在两个小时内完成开发、测试和部署。</li>
+        <li>通过GitHub实现高效团队协作。</li>
+    </ul>
+
+    <h2>用户故事</h2>
+    <ul>
+        <li><strong>作为用户</strong>，我希望连接我的钱包（如MetaMask），使用Monad Testnet支付和接收奖励。</li>
+        <li><strong>作为用户</strong>，我希望支付Monad测试代币来抽取三张无聊猿卡片。</li>
+        <li><strong>作为用户</strong>，我希望抽卡后立即看到三张卡片的结果，了解是否赢得奖励。</li>
+        <li><strong>作为用户</strong>，我希望抽卡随机且公平，结果不可预测。</li>
+        <li><strong>作为用户</strong>，我希望界面简单，突出无聊猿卡片的展示。</li>
+    </ul>
+
+    <h2>功能需求</h2>
+    <ol>
+        <li><strong>钱包连接</strong>
+            <ul>
+                <li>用户通过MetaMask连接Monad Testnet。</li>
+                <li>支持支付和接收Monad测试代币。</li>
+            </ul>
+        </li>
+        <li><strong>支付系统</strong>
+            <ul>
+                <li>用户支付固定数量的Monad测试代币（如0.01 Monad）触发抽卡。</li>
+                <li>支付成功后启动抽卡流程。</li>
+            </ul>
+        </li>
+        <li><strong>抽卡机制</strong>
+            <ul>
+                <li>系统从10种无聊猿卡片中随机抽取三张。</li>
+                <li>卡片库预定义为10种不同无聊猿（可编号为Ape #1至Ape #10）。</li>
+                <li>抽卡结果以图像或编号形式展示。</li>
+            </ul>
+        </li>
+        <li><strong>结果判断</strong>
+            <ul>
+                <li>判断三张无聊猿卡片是否相同。</li>
+                <li>相同则用户获胜，否则无奖励。</li>
+            </ul>
+        </li>
+        <li><strong>奖励发放</strong>
+            <ul>
+                <li>胜利时，自动将奖励（如0.05 Monad测试代币）转入用户钱包。</li>
+                <li>失败时不发放奖励。</li>
+            </ul>
+        </li>
+        <li><strong>用户界面</strong>
+            <ul>
+                <li>显示钱包状态、抽卡按钮、三张无聊猿卡片结果和奖励信息。</li>
+                <li>突出无聊猿卡片的视觉效果（如图片展示）。</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h2>技术需求</h2>
+    <ul>
+        <li><strong>前端</strong>
+            <ul>
+                <li>使用HTML、CSS、JavaScript开发界面。</li>
+                <li>通过Web3.js或Ethers.js与Monad Testnet交互。</li>
+                <li>集成10种无聊猿卡片的静态资源（如图片或ID）。</li>
+            </ul>
+        </li>
+        <li><strong>后端</strong>
+            <ul>
+                <li>可选简单Node.js服务器，或直接通过前端调用智能合约。</li>
+            </ul>
+        </li>
+        <li><strong>区块链</strong>
+            <ul>
+                <li>使用Monad Testnet进行开发和测试。</li>
+            </ul>
+        </li>
+        <li><strong>智能合约</strong>
+            <ul>
+                <li>编写合约处理支付、随机抽卡（10种无聊猿）和奖励发放。</li>
+                <li>随机数可通过链上伪随机算法生成。</li>
+            </ul>
+        </li>
+        <li><strong>GitHub协作</strong>
+            <ul>
+                <li>创建GitHub仓库，所有代码通过Pull Request提交。</li>
+                <li>分支管理明确，避免冲突。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>非功能需求</h2>
+    <ul>
+        <li><strong>性能</strong>：抽卡和奖励发放响应时间不超过5秒。</li>
+        <li><strong>安全性</strong>：确保支付和抽卡逻辑透明，防止作弊。</li>
+        <li><strong>用户体验</strong>：界面简洁，无聊猿卡片展示直观。</li>
+    </ul>
+
+    <h2>时间和团队分工</h2>
+    <ul>
+        <li><strong>时间限制</strong>：2小时。</li>
+        <li><strong>团队</strong>：3人。</li>
+        <li><strong>分工建议</strong>：
+            <ul>
+                <li><strong>成员1</strong>：前端开发（界面、钱包连接、无聊猿卡片展示）。</li>
+                <li><strong>成员2</strong>：智能合约开发（支付、抽卡逻辑、奖励发放）。</li>
+                <li><strong>成员3</strong>：测试与部署（连接Monad Testnet、调试）。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>简化策略</h2>
+    <ul>
+        <li><strong>卡片资源</strong>：使用10种无聊猿的编号（Ape #1至#10）或简单图片，避免复杂资源加载。</li>
+        <li><strong>随机逻辑</strong>：链上伪随机数生成（如blockhash），无需复杂算法。</li>
+        <li><strong>测试网</strong>：专注Monad Testnet部署，避免主网成本。</li>
+        <li><strong>核心功能</strong>：仅实现支付、抽卡和奖励发放，省略额外功能。</li>
+    </ul>
+
+    <h2>交付内容</h2>
+    <ul>
+        <li>一个可运行的Web3游戏应用，用户可通过Monad Testnet支付抽取三张无聊猿卡片并获胜时领取奖励。</li>
+        <li>GitHub仓库包含完整代码和README（说明部署步骤和Monad Testnet配置）。</li>
+        <li>部署到Monad Testnet，供展示和测试。</li>
+    </ul>
+
+    <p>通过以上需求分析，团队可快速聚焦于无聊猿卡片和Monad Testnet的核心功能，利用两小时时间高效协作完成“Cryptic Triad”的开发和部署。</p>
+</body>
+</html>

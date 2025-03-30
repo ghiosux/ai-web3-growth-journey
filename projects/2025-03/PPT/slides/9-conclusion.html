@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 项目总结</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .slide-footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .conclusion-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .achievement {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #6366f1;
+            transition: transform 0.2s ease;
+        }
+        .achievement:hover {
+            transform: translateX(5px);
+        }
+        .challenge-box {
+            background: linear-gradient(135deg, #4c1d95 0%, #6366f1 100%);
+            border-radius: 12px;
+            padding: 1.25rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        .stat-box {
+            background-color: #f9fafb;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6366f1;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .animate-fade-in-scale {
+            animation: fadeInScale 1s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                项目总结
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="conclusion-header animate-fade-in">
+                <h2 class="text-3xl font-bold text-indigo-700">项目回顾与总结</h2>
+                <p class="text-gray-600 mt-2">在仅仅两小时的黑客松挑战中，我们成功构建了Trisolaris</p>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-6 mb-8">
+                <div class="stat-box animate-fade-in-scale delay-100">
+                    <div class="stat-number">2</div>
+                    <div class="text-gray-600">小时内完成</div>
+                </div>
+                <div class="stat-box animate-fade-in-scale delay-200">
+                    <div class="stat-number">4</div>
+                    <div class="text-gray-600">团队成员</div>
+                </div>
+                <div class="stat-box animate-fade-in-scale delay-300">
+                    <div class="stat-number">10</div>
+                    <div class="text-gray-600">种无聊猿卡片</div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700 animate-slide-up">项目成就</h3>
+                    
+                    <div class="achievement animate-fade-in delay-100">
+                        <h4 class="font-bold text-lg mb-1 flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            完成核心功能
+                        </h4>
+                        <p class="text-gray-600">成功实现了抽卡、判断结果和奖励发放的核心游戏逻辑。</p>
+                    </div>
+                    
+                    <div class="achievement animate-fade-in delay-200">
+                        <h4 class="font-bold text-lg mb-1 flex items-center">
+                            <i class="fas fa-mobile-alt text-green-500 mr-2"></i>
+                            响应式设计
+                        </h4>
+                        <p class="text-gray-600">打造了适配各种设备的游戏界面，提供良好的用户体验。</p>
+                    </div>
+                    
+                    <div class="achievement animate-fade-in delay-300">
+                        <h4 class="font-bold text-lg mb-1 flex items-center">
+                            <i class="fas fa-rocket text-green-500 mr-2"></i>
+                            成功部署
+                        </h4>
+                        <p class="text-gray-600">将智能合约成功部署到Monad Testnet，确保游戏可运行。</p>
+                    </div>
+                    
+                    <div class="achievement animate-fade-in delay-400">
+                        <h4 class="font-bold text-lg mb-1 flex items-center">
+                            <i class="fas fa-users text-green-500 mr-2"></i>
+                            高效协作
+                        </h4>
+                        <p class="text-gray-600">通过GitHub实现了高效的团队协作和代码管理。</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700 animate-slide-up">挑战与经验</h3>
+                    
+                    <div class="challenge-box animate-fade-in delay-300">
+                        <h4 class="font-bold text-lg mb-3">我们面临的挑战</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-triangle mt-1 mr-2"></i>
+                                <span>时间限制：仅两小时内完成从设计到部署的全过程</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-triangle mt-1 mr-2"></i>
+                                <span>智能合约：实现公平的随机抽卡机制</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-triangle mt-1 mr-2"></i>
+                                <span>前端交互：与Monad Testnet的稳定连接</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg animate-fade-in delay-500">
+                        <h4 class="font-bold text-lg mb-3 text-indigo-700">经验教训</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+                                <span>明确分工可以提高团队效率</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+                                <span>MVP优先，专注于核心功能</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+                                <span>使用成熟技术栈加速开发</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+                                <span>测试与部署并行进行节省时间</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center animate-fade-in delay-600">
+                <a href="https://github.com/RYYAI/ai-web3-growth-journey/tree/main" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition">
+                    <i class="fas fa-code-branch mr-2"></i>
+                    查看完整项目代码
+                </a>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            Trisolaris 项目 | 2025年3月黑客松
+        </div>
+    </div>
+</body>
+</html> 

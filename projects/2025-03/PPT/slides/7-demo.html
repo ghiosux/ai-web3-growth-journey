@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 项目演示</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .slide-footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .demo-browser {
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .browser-header {
+            background-color: #f7fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .browser-controls {
+            display: flex;
+            margin-right: 1rem;
+        }
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .browser-dot.red { background-color: #f56565; }
+        .browser-dot.yellow { background-color: #ecc94b; }
+        .browser-dot.green { background-color: #48bb78; }
+        .browser-address {
+            flex: 1;
+            background-color: #edf2f7;
+            border-radius: 4px;
+            padding: 0.3rem 0.75rem;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .browser-body {
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+        .browser-body img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+        .demo-instructions {
+            background-color: #f0f4f8;
+            border-left: 4px solid #4f46e5;
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
+            margin-bottom: 1rem;
+        }
+        .demo-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .step-number {
+            background-color: #4f46e5;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 0.75rem;
+        }
+        .step-content {
+            flex: 1;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                项目演示
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="grid grid-cols-3 gap-8">
+                <div class="col-span-2 animate-fade-in">
+                    <div class="demo-browser">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <div class="browser-dot red"></div>
+                                <div class="browser-dot yellow"></div>
+                                <div class="browser-dot green"></div>
+                            </div>
+                            <div class="browser-address">
+                                https://trisolaris.monad.testnet/app
+                            </div>
+                        </div>
+                        <div class="browser-body">
+                            <!-- 假设的游戏截图 -->
+                            <img src="https://via.placeholder.com/800x500?text=Trisolaris+Game+Interface" alt="Trisolaris Game Interface">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center text-gray-600 text-sm">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        实际演示可在 <a href="https://github.com/RYYAI/ai-web3-growth-journey/tree/main" class="text-indigo-600 hover:underline">GitHub仓库</a> 查看源代码并本地运行。
+                    </div>
+                </div>
+                
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700 animate-slide-up">演示步骤</h3>
+                    
+                    <div class="demo-instructions animate-fade-in delay-100">
+                        <p>请按照以下步骤体验Trisolaris游戏：</p>
+                    </div>
+                    
+                    <div class="demo-step animate-fade-in delay-200">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4 class="font-bold">准备环境</h4>
+                            <p class="text-sm text-gray-600">安装MetaMask，配置Monad Testnet网络</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-step animate-fade-in delay-300">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4 class="font-bold">连接钱包</h4>
+                            <p class="text-sm text-gray-600">点击"连接钱包"按钮，授权连接MetaMask</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-step animate-fade-in delay-400">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4 class="font-bold">获取测试代币</h4>
+                            <p class="text-sm text-gray-600">从测试网水龙头获取Monad测试代币</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-step animate-fade-in delay-500">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4 class="font-bold">开始游戏</h4>
+                            <p class="text-sm text-gray-600">点击"抽卡"按钮，支付0.01 Monad代币</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-step animate-fade-in delay-500">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4 class="font-bold">查看结果</h4>
+                            <p class="text-sm text-gray-600">观察抽到的三张卡片，如果三张相同则获得奖励</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-indigo-50 p-4 rounded-lg animate-fade-in delay-500">
+                        <h4 class="font-bold flex items-center text-indigo-700">
+                            <i class="fas fa-code-branch mr-2"></i>
+                            技术演示亮点
+                        </h4>
+                        <ul class="mt-2 text-sm space-y-2 pl-5 list-disc">
+                            <li>智能合约与前端集成</li>
+                            <li>链上随机数生成</li>
+                            <li>MetaMask交互</li>
+                            <li>Web3事件监听</li>
+                            <li>响应式UI设计</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            Trisolaris 项目 | 2025年3月黑客松
+        </div>
+    </div>
+</body>
+</html> 

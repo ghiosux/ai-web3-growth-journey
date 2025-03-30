@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 鸣谢</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #6366f1 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.1) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.05) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 900px;
+        }
+        .sponsor-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            height: 200px;
+        }
+        .sponsor-card:hover {
+            transform: translateY(-10px);
+        }
+        .sponsor-logo {
+            height: 80px;
+            width: auto;
+            margin-bottom: 1rem;
+            object-fit: contain;
+        }
+        .sponsor-name {
+            font-weight: bold;
+            color: #4c1d95;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+        .sponsor-role {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        .hackathon-weekly {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 900px;
+        }
+        .hackathon-weekly-logo {
+            height: 60px;
+            margin-right: 2rem;
+        }
+        .hackathon-weekly-info {
+            text-align: left;
+        }
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            margin-top: 1rem;
+            background-color: white;
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+        .thank-you {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffffff, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        
+        .footer-text {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="animate-fade-in">
+            <div class="thank-you">感谢参与！</div>
+            <p class="text-xl opacity-80">感谢所有为Trisolaris项目提供支持的组织和个人</p>
+        </div>
+        
+        <div class="hackathon-weekly animate-scale-in delay-200">
+            <div class="svg-container">
+                <img src="../images/logo-text.svg" alt="HackathonWeekly Logo" class="hackathon-weekly-logo">
+            </div>
+            <div class="hackathon-weekly-info">
+                <div class="text-xl font-bold">周周黑客松</div>
+                <div class="opacity-80">感谢周周黑客松社区组织本次活动</div>
+                <div class="flex mt-4 justify-between">
+                    <div class="mr-4 text-center">
+                        <div class="text-sm mb-2">公众号</div>
+                        <div class="qr-code bg-white">
+                            <i class="fas fa-qrcode text-6xl text-gray-300 flex items-center justify-center h-full"></i>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-sm mb-2">微信群</div>
+                        <div class="qr-code bg-white">
+                            <i class="fas fa-users text-6xl text-gray-300 flex items-center justify-center h-full"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sponsors-grid">
+            <div class="sponsor-card animate-slide-up delay-300">
+                <div class="svg-container">
+                    <img src="../images/purple-logo.svg" alt="OpenBuild Logo" class="sponsor-logo">
+                </div>
+                <div class="sponsor-name">OpenBuild</div>
+                <div class="sponsor-role">活动支持方</div>
+                <div class="mt-2 text-indigo-600 text-sm">
+                    <i class="fas fa-star mr-1"></i>技术支持与基础设施
+                </div>
+            </div>
+            
+            <div class="sponsor-card animate-slide-up delay-400">
+                <div class="svg-container">
+                    <img src="../images/icon.svg" alt="Monad Logo" class="sponsor-logo">
+                </div>
+                <div class="sponsor-name">Monad Testnet</div>
+                <div class="sponsor-role">技术平台支持</div>
+                <div class="mt-2 text-indigo-600 text-sm">
+                    <i class="fas fa-code mr-1"></i>提供测试网络与工具链
+                </div>
+            </div>
+            
+            <div class="sponsor-card animate-slide-up delay-500">
+                <div class="svg-container">
+                    <img src="../images/logo-text.svg" alt="HackathonWeekly Logo" class="sponsor-logo">
+                </div>
+                <div class="sponsor-name">周周黑客松</div>
+                <div class="sponsor-role">主办方</div>
+                <div class="mt-2 text-indigo-600 text-sm">
+                    <i class="fas fa-calendar-alt mr-1"></i>活动组织与策划
+                </div>
+            </div>
+        </div>
+        
+        <div class="sponsors-grid mt-0">
+            <div class="sponsor-card animate-slide-up delay-300">
+                <div class="svg-container">
+                    <i class="fas fa-laptop-code text-6xl text-indigo-600"></i>
+                </div>
+                <div class="sponsor-name">Web3基金会</div>
+                <div class="sponsor-role">赞助商</div>
+                <div class="mt-2 text-indigo-600 text-sm">
+                    <i class="fas fa-award mr-1"></i>奖金与激励支持
+                </div>
+            </div>
+            
+            <div class="sponsor-card animate-slide-up delay-400">
+                <div class="svg-container">
+                    <i class="fas fa-university text-6xl text-indigo-600"></i>
+                </div>
+                <div class="sponsor-name">区块链学院</div>
+                <div class="sponsor-role">教育支持方</div>
+                <div class="mt-2 text-indigo-600 text-sm">
+                    <i class="fas fa-graduation-cap mr-1"></i>提供技术培训与资源
+                </div>
+            </div>
+            
+            <div class="sponsor-card animate-slide-up delay-500">
+                <div class="svg-container">
+                    <i class="fas fa-cloud text-6xl text-indigo-600"></i>
+                </div>
+                <div class="sponsor-name">数字星球</div>
+                <div class="sponsor-role">云服务支持</div>
+                <div class="mt-2 text-indigo-600 text-sm">
+                    <i class="fas fa-server mr-1"></i>提供基础设施与部署平台
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-text animate-fade-in delay-600">
+            © 2025 Trisolaris 团队 | 所有资源仅用于演示目的
+        </div>
+    </div>
+</body>
+</html> 

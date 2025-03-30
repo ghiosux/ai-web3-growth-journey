@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 卡牌展示</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 2rem);
+            display: flex;
+            flex-direction: column;
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .slide-footer {
+            margin-top: auto;
+            padding-top: 0.75rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+        .card-subtitle {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #6366f1;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        .rarity-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(99, 102, 241, 0.9);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.25rem;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.8s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes scaleIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+        .delay-900 { animation-delay: 0.9s; }
+        .delay-1000 { animation-delay: 1s; }
+        
+        /* 调整卡牌展示以确保完全显示 */
+        .card-img {
+            background-color: #f3f4f6;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        /* 滚动控制 */
+        .content-wrapper {
+            min-height: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                卡牌展示
+            </div>
+        </div>
+        
+        <div class="slide-content content-wrapper">
+            <h2 class="text-2xl font-bold mb-3 text-indigo-700 animate-fade-in">无聊猿卡牌收藏</h2>
+            
+            <p class="text-base mb-5 animate-fade-in delay-100">
+                Trisolaris游戏提供10种不同风格的无聊猿卡牌，每种都有独特的特征和风格。
+                玩家可以通过抽卡获得这些卡牌，并尝试收集相同的三张卡牌来赢得奖励。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card animate-scale-in delay-100">
+                    <img src="../images/7.png" alt="金色无聊猿" class="card-img">
+                    <div class="rarity-badge">稀有</div>
+                    <div class="card-content">
+                        <div class="card-title">金色无聊猿</div>
+                        <div class="card-subtitle">金色皮毛、墨镜</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">9.5</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">5%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-200">
+                    <img src="../images/25.png" alt="蓝色无聊猿" class="card-img">
+                    <div class="rarity-badge">普通</div>
+                    <div class="card-content">
+                        <div class="card-title">蓝色无聊猿</div>
+                        <div class="card-subtitle">蓝色皮毛、船长帽</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">7.8</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">15%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-300">
+                    <img src="../images/35.png" alt="红色无聊猿" class="card-img">
+                    <div class="rarity-badge">普通</div>
+                    <div class="card-content">
+                        <div class="card-title">红色无聊猿</div>
+                        <div class="card-subtitle">红色皮毛、牛仔帽</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">7.6</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">15%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-400">
+                    <img src="../images/3.png" alt="黑色无聊猿" class="card-img">
+                    <div class="rarity-badge">稀有</div>
+                    <div class="card-content">
+                        <div class="card-title">黑色无聊猿</div>
+                        <div class="card-subtitle">黑色皮毛、皇冠</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">9.1</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">8%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-500">
+                    <img src="../images/48.png" alt="绿色无聊猿" class="card-img">
+                    <div class="rarity-badge">普通</div>
+                    <div class="card-content">
+                        <div class="card-title">绿色无聊猿</div>
+                        <div class="card-subtitle">绿色皮毛、丛林装备</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">7.3</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">15%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-600">
+                    <img src="../images/54.png" alt="粉色无聊猿" class="card-img">
+                    <div class="rarity-badge">普通</div>
+                    <div class="card-content">
+                        <div class="card-title">粉色无聊猿</div>
+                        <div class="card-subtitle">粉色皮毛、霓虹灯饰</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">7.4</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">15%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-700">
+                    <img src="../images/17.png" alt="紫色无聊猿" class="card-img">
+                    <div class="rarity-badge">稀有</div>
+                    <div class="card-content">
+                        <div class="card-title">紫色无聊猿</div>
+                        <div class="card-subtitle">紫色皮毛、太空头盔</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">8.9</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">7%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-800">
+                    <img src="../images/42.png" alt="棕色无聊猿" class="card-img">
+                    <div class="rarity-badge">普通</div>
+                    <div class="card-content">
+                        <div class="card-title">棕色无聊猿</div>
+                        <div class="card-subtitle">棕色皮毛、夏威夷衬衫</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">7.5</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">15%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-900">
+                    <img src="../images/29.png" alt="银河无聊猿" class="card-img">
+                    <div class="rarity-badge">特殊</div>
+                    <div class="card-content">
+                        <div class="card-title">银河无聊猿</div>
+                        <div class="card-subtitle">星系皮毛、彩虹眼睛</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">9.9</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">1%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card animate-scale-in delay-1000">
+                    <img src="../images/53.png" alt="橙色无聊猿" class="card-img">
+                    <div class="rarity-badge">普通</div>
+                    <div class="card-content">
+                        <div class="card-title">橙色无聊猿</div>
+                        <div class="card-subtitle">橙色皮毛、工装背心</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">7.2</div>
+                                <div class="stat-label">评分</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">15%</div>
+                                <div class="stat-label">出现率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            <div>Trisolaris 项目 | 2025年3月黑客松</div>
+        </div>
+    </div>
+</body>
+</html> 

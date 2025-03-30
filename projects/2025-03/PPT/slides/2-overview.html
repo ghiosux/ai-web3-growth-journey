@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 项目概述</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .slide-footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .feature-icon {
+            background-color: #6366f1;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInLeft {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                项目概述
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="grid grid-cols-2 gap-8">
+                <div class="animate-slide-in-left">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-700">什么是 Trisolaris？</h3>
+                    <p class="mb-4">Trisolaris 是一个基于区块链的卡牌抽卡游戏，玩家可以使用 TRI 代币抽取不同稀有度的卡牌，并有机会获得三连奖励。</p>
+                    
+                    <h3 class="text-xl font-bold mt-6 mb-3 text-indigo-700">项目亮点</h3>
+                    
+                    <div class="feature-item animate-fade-in delay-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">基于 Monad Testnet</h4>
+                            <p class="text-sm text-gray-600">使用 Monad Testnet 的测试代币进行支付和奖励发放</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item animate-fade-in delay-200">
+                        <div class="feature-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">三连机制</h4>
+                            <p class="text-sm text-gray-600">抽取三张相同卡片获得奖励，简单易懂的游戏规则</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item animate-fade-in delay-300">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">快速开发</h4>
+                            <p class="text-sm text-gray-600">在两小时内完成开发、测试和部署的挑战</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-in-right">
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-inner h-full">
+                        <h3 class="text-xl font-bold mb-4 text-indigo-700">技术栈</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <i class="fab fa-react text-blue-500 text-2xl mr-2"></i>
+                                <span>React.js</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-ethernet text-purple-500 text-2xl mr-2"></i>
+                                <span>ethers.js</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fab fa-ethereum text-indigo-500 text-2xl mr-2"></i>
+                                <span>Solidity</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-hammer text-gray-700 text-2xl mr-2"></i>
+                                <span>Hardhat</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-network-wired text-green-500 text-2xl mr-2"></i>
+                                <span>Hardhat Network</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-mask text-orange-500 text-2xl mr-2"></i>
+                                <span>MetaMask</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h3 class="text-xl font-bold mb-3 text-indigo-700">核心功能</h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>连接钱包（如MetaMask），使用Monad Testnet支付和接收奖励</li>
+                                <li>支付Monad测试代币来抽取三张无聊猿卡片</li>
+                                <li>抽卡后立即看到三张卡片的结果，了解是否赢得奖励</li>
+                                <li>抽卡随机且公平，结果不可预测</li>
+                                <li>界面简单，突出无聊猿卡片的展示</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            Trisolaris 项目 | 2025年3月黑客松
+        </div>
+    </div>
+</body>
+</html> 

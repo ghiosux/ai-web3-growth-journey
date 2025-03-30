@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 团队介绍</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .slide-footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .team-member {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            padding: 1.5rem;
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            margin-right: 1.5rem;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #a0aec0;
+            border: 3px solid #6366f1;
+        }
+        .member-info {
+            flex: 1;
+        }
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .member-role {
+            color: #6366f1;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        .member-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .skill-tag {
+            background-color: #edf2f7;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            color: #4a5568;
+        }
+        .team-intro {
+            background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        .contribution {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .contribution-item {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        .contribution-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                团队介绍
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <div class="team-intro animate-fade-in">
+                <h3 class="text-xl font-bold mb-2">我们的团队</h3>
+                <p>由四位对Web3和区块链技术充满热情的开发者组成，在短短2小时内完成了Trisolaris项目的开发与部署。</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member animate-fade-in delay-100">
+                    <div class="member-avatar">
+                        <span>I</span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">Ivy</div>
+                        <div class="member-role">队长 / 项目管理 / 前端</div>
+                        <div class="contribution">
+                            <div class="contribution-item">项目规划与团队协调</div>
+                            <div class="contribution-item">前端UI设计与实现</div>
+                            <div class="contribution-item">组件开发</div>
+                        </div>
+                        <div class="member-skills">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">UI/UX</span>
+                            <span class="skill-tag">项目管理</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member animate-fade-in delay-200">
+                    <div class="member-avatar">
+                        <span>熊</span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">熊书鸿</div>
+                        <div class="member-role">区块链开发 / 智能合约</div>
+                        <div class="contribution">
+                            <div class="contribution-item">智能合约设计与开发</div>
+                            <div class="contribution-item">随机抽卡算法实现</div>
+                            <div class="contribution-item">合约测试与部署</div>
+                        </div>
+                        <div class="member-skills">
+                            <span class="skill-tag">Solidity</span>
+                            <span class="skill-tag">Hardhat</span>
+                            <span class="skill-tag">Web3.js</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member animate-fade-in delay-300">
+                    <div class="member-avatar">
+                        <span>杨</span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">杨若愚</div>
+                        <div class="member-role">前端开发 / Web3集成</div>
+                        <div class="contribution">
+                            <div class="contribution-item">前端框架搭建</div>
+                            <div class="contribution-item">MetaMask钱包集成</div>
+                            <div class="contribution-item">合约交互逻辑实现</div>
+                        </div>
+                        <div class="member-skills">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">ethers.js</span>
+                            <span class="skill-tag">前端架构</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member animate-fade-in delay-400">
+                    <div class="member-avatar">
+                        <span>衡</span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">衡权</div>
+                        <div class="member-role">测试 / 部署 / 文档</div>
+                        <div class="contribution">
+                            <div class="contribution-item">测试与调试</div>
+                            <div class="contribution-item">部署到Monad Testnet</div>
+                            <div class="contribution-item">文档与演示准备</div>
+                        </div>
+                        <div class="member-skills">
+                            <span class="skill-tag">测试</span>
+                            <span class="skill-tag">DevOps</span>
+                            <span class="skill-tag">文档</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center animate-fade-in delay-500">
+                <div class="inline-block bg-indigo-100 px-6 py-2 rounded-full">
+                    <a href="https://github.com/RYYAI/ai-web3-growth-journey/tree/main" class="text-indigo-700 hover:underline flex items-center">
+                        <i class="fab fa-github mr-2"></i>
+                        <span class="font-bold">GitHub 项目地址</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            Trisolaris 项目 | 2025年3月黑客松
+        </div>
+    </div>
+</body>
+</html> 

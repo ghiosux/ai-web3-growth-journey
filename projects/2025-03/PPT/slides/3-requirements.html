@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trisolaris - 需求分析</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d3748;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+        }
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 2rem);
+            display: flex;
+            flex-direction: column;
+        }
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .slide-footer {
+            margin-top: auto;
+            padding-top: 0.75rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        .logo {
+            height: 2.5rem;
+        }
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.05) 2%, transparent 0%),
+                radial-gradient(circle at 75px 75px, rgba(0, 0, 0, 0.025) 2%, transparent 0%);
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+        .requirement-box {
+            background-color: #f8fafc;
+            border-left: 4px solid #6366f1;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .requirement-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in forwards;
+            opacity: 0;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInLeft {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        
+        /* 调整栅格和间距以适应更多内容 */
+        .grid { 
+            grid-gap: 1rem; 
+        }
+        
+        /* 减小时间与团队分工部分的内边距 */
+        .time-team-section {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* 减小项目信息字体大小 */
+        .project-info {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        
+        /* 确保内容区完全展示 */
+        .content-wrapper {
+            min-height: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 用户故事和功能需求列表的样式调整 */
+        .user-stories, .feature-requirements {
+            overflow-y: auto;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-pattern"></div>
+        
+        <div class="slide-header">
+            <div class="flex items-center">
+                <img src="../images/icon.svg" alt="Trisolaris" class="logo mr-3">
+                <h2 class="text-xl font-bold">Trisolaris - Web3卡牌抽卡游戏</h2>
+            </div>
+            <div class="text-sm text-gray-500">
+                需求分析
+            </div>
+        </div>
+        
+        <div class="slide-content content-wrapper">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="user-stories">
+                    <h3 class="text-xl font-bold mb-3 text-indigo-700 animate-slide-up">用户故事</h3>
+                    
+                    <div class="requirement-box animate-fade-in delay-100">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-user-alt text-indigo-600 mr-2"></i>
+                            <span class="font-bold">作为用户</span>
+                        </div>
+                        <p class="text-sm">我希望连接我的钱包（如MetaMask），使用Monad Testnet支付和接收奖励。</p>
+                    </div>
+                    
+                    <div class="requirement-box animate-fade-in delay-200">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-user-alt text-indigo-600 mr-2"></i>
+                            <span class="font-bold">作为用户</span>
+                        </div>
+                        <p class="text-sm">我希望支付Monad测试代币来抽取三张无聊猿卡片。</p>
+                    </div>
+                    
+                    <div class="requirement-box animate-fade-in delay-300">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-user-alt text-indigo-600 mr-2"></i>
+                            <span class="font-bold">作为用户</span>
+                        </div>
+                        <p class="text-sm">我希望抽卡后立即看到三张卡片的结果，了解是否赢得奖励。</p>
+                    </div>
+                    
+                    <div class="requirement-box animate-fade-in delay-400">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-user-alt text-indigo-600 mr-2"></i>
+                            <span class="font-bold">作为用户</span>
+                        </div>
+                        <p class="text-sm">我希望抽卡随机且公平，结果不可预测。</p>
+                    </div>
+                    
+                    <div class="requirement-box animate-fade-in delay-500">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-user-alt text-indigo-600 mr-2"></i>
+                            <span class="font-bold">作为用户</span>
+                        </div>
+                        <p class="text-sm">我希望界面简单，突出无聊猿卡片的展示。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-requirements">
+                    <h3 class="text-xl font-bold mb-3 text-indigo-700 animate-slide-up">功能需求</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-indigo-50 p-3 rounded-lg animate-slide-in-right delay-100">
+                            <h4 class="font-bold flex items-center text-sm">
+                                <i class="fas fa-wallet text-indigo-600 mr-2"></i>
+                                钱包连接
+                            </h4>
+                            <ul class="list-disc pl-5 mt-1 text-xs">
+                                <li>用户通过MetaMask连接Monad Testnet</li>
+                                <li>支持支付和接收Monad测试代币</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-indigo-50 p-3 rounded-lg animate-slide-in-right delay-200">
+                            <h4 class="font-bold flex items-center text-sm">
+                                <i class="fas fa-money-bill-wave text-indigo-600 mr-2"></i>
+                                支付系统
+                            </h4>
+                            <ul class="list-disc pl-5 mt-1 text-xs">
+                                <li>用户支付固定数量的Monad测试代币触发抽卡</li>
+                                <li>支付成功后启动抽卡流程</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-indigo-50 p-3 rounded-lg animate-slide-in-right delay-300">
+                            <h4 class="font-bold flex items-center text-sm">
+                                <i class="fas fa-th text-indigo-600 mr-2"></i>
+                                抽卡机制
+                            </h4>
+                            <ul class="list-disc pl-5 mt-1 text-xs">
+                                <li>系统从10种无聊猿卡片中随机抽取三张</li>
+                                <li>卡片库预定义为10种不同无聊猿</li>
+                                <li>抽卡结果以图像形式展示</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-indigo-50 p-3 rounded-lg animate-slide-in-right delay-400">
+                            <h4 class="font-bold flex items-center text-sm">
+                                <i class="fas fa-check-circle text-indigo-600 mr-2"></i>
+                                结果判断
+                            </h4>
+                            <ul class="list-disc pl-5 mt-1 text-xs">
+                                <li>判断三张无聊猿卡片是否相同</li>
+                                <li>相同则用户获胜，否则无奖励</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-indigo-50 p-3 rounded-lg animate-slide-in-right delay-500">
+                            <h4 class="font-bold flex items-center text-sm">
+                                <i class="fas fa-gift text-indigo-600 mr-2"></i>
+                                奖励发放
+                            </h4>
+                            <ul class="list-disc pl-5 mt-1 text-xs">
+                                <li>胜利时，自动将奖励转入用户钱包</li>
+                                <li>失败时不发放奖励</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="time-team-section animate-slide-up delay-700">
+                <h3 class="text-lg font-bold mb-2 text-indigo-700">时间与团队分工</h3>
+                
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                        <div class="font-bold text-base mb-1">2小时</div>
+                        <div class="text-xs text-gray-600">完成开发、测试和部署</div>
+                    </div>
+                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                        <div class="font-bold text-base mb-1">3人团队</div>
+                        <div class="text-xs text-gray-600">通过GitHub协作开发</div>
+                    </div>
+                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                        <div class="font-bold text-base mb-1">Pull Request</div>
+                        <div class="text-xs text-gray-600">代码审核和质量控制</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-footer">
+            <div>Trisolaris 项目 | 2025年3月黑客松</div>
+        </div>
+    </div>
+</body>
+</html> 

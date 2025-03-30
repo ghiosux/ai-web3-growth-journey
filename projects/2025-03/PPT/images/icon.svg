@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#4c1d95" />
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="90" fill="url(#gradient)" />
+  <g fill="white">
+    <!-- 三个相连的小圆形，代表"三连" -->
+    <circle cx="75" cy="100" r="20" opacity="0.9" />
+    <circle cx="100" cy="100" r="20" opacity="0.9" />
+    <circle cx="125" cy="100" r="20" opacity="0.9" />
+    
+    <!-- 字母T -->
+    <rect x="85" y="60" width="30" height="8" />
+    <rect x="95" y="60" width="10" height="30" />
+  </g>
+</svg>
